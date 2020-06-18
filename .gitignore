@@ -3,3 +3,5 @@ lyrics_dir
 temp.txt
 defaults.py
 *.pyc
+.idea
+venv
