@@ -1,0 +1,5 @@
+__pycache__
+lyrics_dir
+temp.txt
+defaults.py
+*.pyc
