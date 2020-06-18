@@ -3,15 +3,15 @@ from finder import GeniusAPI
 from db.db import Mongo
 from frequency import ArtistFrequency
 
+
 def main(args):
     db = Mongo('lyrics-db')
     songs_in_db = db.getArtistCount(args.artist_name)
     if songs_in_db > 0:
         print('Artist found')
-        x = ArtistFrequency(args.artist_name, db.getFrequencyObj(args.artist_name))
-        x.createArtistLevelWordFrequency()
-        a = x.getArtistLevelWordFrequency()
-        print(a)
+        x = ArtistFrequency(
+            args.artist_name, db.getSongFrequency(args.artist_name)).getArtistLevelWordFrequency()
+
     else:
         print('Artist not Found in local database.\nSearching the world wide webs for {}\'s lyrics....\n'.format(
             args.artist_name))

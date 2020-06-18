@@ -14,7 +14,8 @@ class FrequencyCreator:
         with open('temp.txt', 'w') as f:
             i = 0
             for line in lines:
-                if (('[' and ']') not in line.strip('\n')) and ('Song:' not in line.strip('\n')) and ('Artist:' not in line.strip('\n')):
+                if (('[' and ']') not in line.strip('\n')) and ('Song:' not in line.strip('\n')) and (
+                        'Artist:' not in line.strip('\n')):
                     f.write(line)
                 i += 1
 
@@ -33,6 +34,7 @@ class FrequencyCreator:
             frequency[word] = count + 1
         return frequency
 
+
 class ArtistFrequency:
     def __init__(self, artist, frequency):
         self._artist = artist
@@ -50,13 +52,11 @@ class ArtistFrequency:
                 except KeyError:
                     all_artists_lyric_frequency[word] = freq
         sorted_artist_word_frequency = dict(sorted(all_artists_lyric_frequency.items(),
-                                                key=operator.itemgetter(1)))
+                                                   key=operator.itemgetter(1)))
         db = Mongo('lyrics-db')
-        db.saveMasterFreq({'artist': self._artist, 'all_lyrics': sorted_artist_word_frequency})
+        db.saveDiscographyFrequency({'artist': self._artist, 'all_lyrics': sorted_artist_word_frequency})
         print('Frequency for {} has been calculated...'.format(self._artist))
 
     def getArtistLevelWordFrequency(self):
         db = Mongo('lyrics-db')
-        return db.getMasterFreq(self._artist)
-
-
+        return db.getDiscographyFrequency(self._artist)

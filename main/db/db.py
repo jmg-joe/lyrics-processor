@@ -1,7 +1,7 @@
 import pymongo
 import os
 import defaults
-print(defaults.defaults)
+
 
 class Mongo:
     def __init__(self, dbname):
@@ -9,18 +9,17 @@ class Mongo:
             'mongodb://localhost:' + defaults.defaults['db_port'] + '/')
         self._db = self._conn[dbname]
 
-    def getFrequencyObj(self, artist):
+    def getSongFrequency(self, artist):
         return self._db['lyrics'].find({'artist': artist})
 
-    def saveFrequencyObj(self, freqObj):
+    def saveSongFrequency(self, freqObj):
         self._db['lyrics'].insert_one(freqObj)
 
-    def saveMasterFreq(self, freqObj):
-       self._db['artists'].insert_one(freqObj)
-    
-    def getMasterFreq(self, artist):
+    def saveDiscographyFrequency(self, freqObj):
+        self._db['artists'].insert_one(freqObj)
+
+    def getDiscographyFrequency(self, artist):
         return self._db['artists'].find({'artist': artist})
-        
+
     def getArtistCount(self, artist):
-        return self._db['lyrics'].find({'artist': artist}).count()
-    
+        return self._db['artists'].find({'artist': artist}).count()
