@@ -23,3 +23,6 @@ class Mongo:
 
     def getArtistCount(self, artist):
         return self._db['artists'].find({'artist': artist}).count()
+
+    def getSongArtistCount(self, artist):
+        return self._db['lyrics'].find({'artist': artist}).count()

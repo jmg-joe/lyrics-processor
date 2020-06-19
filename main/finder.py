@@ -28,15 +28,19 @@ class GeniusAPI:
                 if self._artist.lower() in potential_song['result']['primary_artist']['name'].lower():
                     song_found = potential_song
                     song_url = song_found['result']['url']
-                    lyrics_to_save = self.scrape_lyrics(song_url)
-                    self.write_to_dir(lyrics_to_save,
+                    try:
+                        lyrics_to_save = self.scrape_lyrics(song_url)
+                        self.write_to_dir(lyrics_to_save,
                                       song_found['result']['title'], self._artist)
+                    except:
+                        print('could not process lyrics for ' + song_found['result']['title'] + ' with url ' + song_url)
+                        continue
 
             page += 1
         print('All Songs for {} have been found. Program is now calculating the frequency of all words...'.format(
             self._artist))
         db = Mongo('lyrics-db')
-        songs_in_db = db.getArtistCount(self._artist)
+        songs_in_db = db.getSongArtistCount(self._artist)
         if songs_in_db > 0:
             artistFreq = ArtistFrequency(self._artist, db.getSongFrequency(self._artist))
             artistFreq.createArtistLevelWordFrequency()
